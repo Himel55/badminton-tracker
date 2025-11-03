@@ -5,6 +5,7 @@
   "main": "index.html",
   "scripts": {
     "dev": "python -m http.server 3000",
+    "dev-node": "http-server -p 3000",
     "build": "echo 'Nothing to build - static HTML'"
   },
   "keywords": ["badminton", "tracker", "trueskill"],

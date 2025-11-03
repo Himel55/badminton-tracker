@@ -320,6 +320,165 @@
             font-weight: 500;
         }
 
+        .bracket-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bracket-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .bracket-name {
+            font-weight: 500;
+        }
+
+        .bracket-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .bracket-button.add {
+            background: #007bff;
+        }
+
+        .bracket-button.remove {
+            background: #dc3545;
+        }
+
+        .bracket-actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .bracket-generate {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #28a745;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .bracket-generate:disabled {
+            background: #94d3a2;
+            cursor: not-allowed;
+        }
+
+        .bracket-clear {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #dc3545;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .bracket-match-list {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .bracket-match {
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .bracket-match.completed {
+            opacity: 0.6;
+        }
+
+        .bracket-match.completed input,
+        .bracket-match.completed button {
+            pointer-events: none;
+        }
+
+        .bracket-match-header {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            column-gap: 20px;
+            margin-bottom: 12px;
+        }
+
+        .match-team {
+            font-weight: 600;
+        }
+
+        .match-vs {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #6c757d;
+            margin: 0;
+        }
+
+        .bracket-match-body {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .team-score-input {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .team-score-input input {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .team-score-input input:disabled {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+
+        .bracket-record {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #17a2b8;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .bracket-record:disabled {
+            background: #9ccbd4;
+            cursor: not-allowed;
+        }
+
         .btn-small {
             padding: 6px 12px;
             font-size: 12px;
@@ -361,7 +520,8 @@
 
         <div class="nav">
             <button class="nav-btn active" onclick="showSection('leaderboard')">Leaderboard</button>
-            <button class="nav-btn" onclick="showSection('game')">Add Game</button>
+            <button class="nav-btn" onclick="showSection('bracket')">Bracket</button>
+            <button class="nav-btn" onclick="showSection('game')">Game</button>
             <button class="nav-btn" onclick="showSection('friends')">Friends</button>
             <button class="nav-btn" onclick="showSection('history')">History</button>
         </div>
@@ -370,6 +530,11 @@
             <!-- Leaderboard Section -->
             <div id="leaderboard" class="section active">
                 <div id="leaderboard-content"></div>
+            </div>
+
+            <!-- Bracket Section -->
+            <div id="bracket" class="section">
+                <div id="bracket-content"></div>
             </div>
 
             <!-- Add Game Section -->
@@ -459,6 +624,7 @@
 
         // JSONBin Configuration
         const JSONBIN_CONFIG = {
+            // binId: 'YOUR_BIN_ID_HERE',
             binId: '68c8fa8443b1c97be9448bee', // Your correct Bin ID
             apiKey: '$2a$10$16lhtBclc17Ihw4xeliVJuFDkjfRd4hTgdlUM7go6vCcMRcUGZXEm', // Your X-ACCESS-KEY
             baseUrl: 'https://api.jsonbin.io/v3',
@@ -473,6 +639,8 @@
 
         let isOnline = navigator.onLine;
         let saveQueue = [];
+        let activePlayers = [];
+        let bracketMatches = [];
 
         // Load data from JSONBin with localStorage fallback
         async function loadData() {
@@ -546,6 +714,24 @@
             }
         }
 
+        function saveBracket() {
+            localStorage.setItem('badmintonBracket', JSON.stringify(bracketMatches));
+        }
+
+        function loadBracket() {
+            const storedBracket = localStorage.getItem('badmintonBracket');
+            if (storedBracket) {
+                try {
+                    const parsed = JSON.parse(storedBracket);
+                    if (Array.isArray(parsed)) {
+                        bracketMatches = parsed;
+                    }
+                } catch (error) {
+                    console.warn('⚠️ Failed to parse stored bracket data:', error);
+                }
+            }
+        }
+
         // Monitor online status
         window.addEventListener('online', () => {
             isOnline = true;
@@ -591,10 +777,12 @@
         // Initialize app
         async function init() {
             await loadData();
+            loadBracket();
             updateSyncStatus();
             updateAllSelects();
             updateLeaderboard();
             updateFriendsList();
+            updateBracket();
             updateHistory();
         }
 
@@ -632,6 +820,7 @@
             updateAllSelects();
             updateFriendsList();
             updateLeaderboard();
+            updateBracket();
         }
 
         // Remove friend
@@ -642,6 +831,7 @@
                 updateAllSelects();
                 updateFriendsList();
                 updateLeaderboard();
+                updateBracket();
             }
         }
 
@@ -804,6 +994,228 @@
                     stats.gp += 1;
                 }
             });
+        }
+
+        function addActivePlayer(name) {
+            activePlayers.push(name);
+            updateBracket();
+        }
+
+        function removeActivePlayer(name) {
+            activePlayers = activePlayers.filter(player => player !== name);
+            updateBracket();
+        }
+
+        function updateBracket() {
+            const container = document.getElementById('bracket-content');
+            if (!container) return;
+
+            const friends = Object.keys(gameData.friends);
+            activePlayers = activePlayers.filter(player => friends.includes(player));
+            bracketMatches = bracketMatches.filter(match =>
+                match.teamA.concat(match.teamB).every(player => friends.includes(player))
+            );
+            saveBracket();
+
+            if (!friends.length) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No Friends Available</h3>
+                        <p>Add friends to build a bracket.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const hasBracket = bracketMatches.length > 0;
+            if (!hasBracket) {
+                const canGenerate = activePlayers.length >= 4;
+                const listItems = friends.map(name => {
+                    const isActive = activePlayers.includes(name);
+                    const buttonClass = isActive ? 'remove' : 'add';
+                    const buttonLabel = isActive ? 'Remove' : 'Add';
+                    const action = isActive ? `removeActivePlayer('${name}')` : `addActivePlayer('${name}')`;
+
+                    return `
+                        <div class="bracket-item">
+                            <div class="bracket-name">${name}</div>
+                            <button class="bracket-button ${buttonClass}" onclick="${action}">${buttonLabel}</button>
+                        </div>
+                    `;
+                }).join('');
+
+                container.innerHTML = `
+                    <div class="bracket-list">
+                        ${listItems}
+                    </div>
+                    <div class="bracket-actions">
+                        <button class="bracket-generate" onclick="generateBracket()" ${canGenerate ? '' : 'disabled'}>Generate Bracket</button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="bracket-actions">
+                        <button class="bracket-clear" onclick="clearBracket()">Clear Bracket</button>
+                    </div>
+                    ${renderBracketMatches()}
+                `;
+            }
+        }
+
+        function generateBracket() {
+            if (activePlayers.length < 4) {
+                alert('Need at least 4 active players to build matches.');
+                return [];
+            }
+
+            // Step 1: Generate all unique pairs
+            const pairs = [];
+            for (let i = 0; i < activePlayers.length; i++) {
+                for (let j = i + 1; j < activePlayers.length; j++) {
+                    pairs.push([activePlayers[i], activePlayers[j]]);
+                }
+            }
+
+            // Step 2: Generate all combinations of two distinct pairs
+            const pairCombinations = [];
+            for (let i = 0; i < pairs.length; i++) {
+                for (let j = i + 1; j < pairs.length; j++) {
+                    pairCombinations.push([pairs[i], pairs[j]]);
+                }
+            }
+
+            // Step 3: Filter for disjoint pairs
+            const disjointCombinations = pairCombinations.filter(([p1, p2]) => {
+                return p1.every(name => !p2.includes(name));
+            });
+
+            // TODO: Update to match based on TrueSkill ranking and make wait time off court fair
+            // Step 4: Randomize order
+            const shuffledArray = shuffleArray(disjointCombinations);
+            bracketMatches = shuffledArray.map(([teamA, teamB]) => ({
+                teamA,
+                teamB,
+                completed: false,
+                scoreA: '',
+                scoreB: ''
+            }));
+            saveBracket();
+            updateBracket();
+        }
+
+        function clearBracket() {
+            if (!confirm('Are you sure you want to clear the bracket?')) {
+                return;
+            }
+            bracketMatches = [];
+            activePlayers = [];
+            localStorage.removeItem('badmintonBracket');
+            updateBracket();
+        }
+
+        // Fisher-Yates Shuffle
+        function shuffleArray(array) {
+            const shuffled = [...array]; // Create a copy to avoid mutating the original array
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1)); // Random index from 0 to i
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap elements
+            }
+            return shuffled;
+        }
+
+        function renderBracketMatches() {
+            return `
+                <div class="bracket-match-list">
+                    ${bracketMatches.map((match, index) => {
+                        const completedClass = match.completed ? 'completed' : '';
+                        const disabledAttr = match.completed ? 'disabled' : '';
+                        const scoreA = match.scoreA ?? '';
+                        const scoreB = match.scoreB ?? '';
+                        return `
+                            <div class="bracket-match ${completedClass}">
+                                <div class="bracket-match-header">
+                                    <div class="team-score-input">
+                                        <div class="match-team">${match.teamA.join(' & ')}</div>
+                                        <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" id="bracketScoreA-${index}" value="${scoreA}" ${disabledAttr} placeholder="Score">
+                                    </div>
+                                    <div class="match-vs">vs</div>
+                                    <div class="team-score-input">
+                                        <div class="match-team">${match.teamB.join(' & ')}</div>
+                                        <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" id="bracketScoreB-${index}" value="${scoreB}" ${disabledAttr} placeholder="Score">
+                                    </div>
+                                </div>
+                                <div class="bracket-match-body">
+                                    <button class="bracket-record" onclick="recordBracketGame(${index})" ${disabledAttr}>Record Game</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        async function recordBracketGame(index) {
+            const match = bracketMatches[index];
+            if (!match) return;
+
+            const inputA = document.getElementById(`bracketScoreA-${index}`);
+            const inputB = document.getElementById(`bracketScoreB-${index}`);
+            if (!inputA || !inputB) return;
+
+            const scoreA = parseInt(inputA.value, 10);
+            const scoreB = parseInt(inputB.value, 10);
+
+            if (Number.isNaN(scoreA) || Number.isNaN(scoreB)) {
+                alert('Please enter scores for both teams.');
+                return;
+            }
+
+            if (scoreA < 0 || scoreB < 0) {
+                alert('Scores must be zero or greater.');
+                return;
+            }
+
+            const scoreString = `${scoreA}-${scoreB}`;
+            const scores = parseScores(scoreString);
+            if (scores.length === 0) {
+                alert('Please enter valid numeric scores.');
+                return;
+            }
+
+            const ptsA = scores.reduce((sum, [a, b]) => sum + a, 0);
+            const ptsB = scores.reduce((sum, [a, b]) => sum + b, 0);
+            const total = ptsA + ptsB;
+
+            if (total <= 0) {
+                alert('Invalid scores.');
+                return;
+            }
+
+            updateMatch(match.teamA, match.teamB, scores);
+
+            gameData.matches.push({
+                timestamp: Date.now(),
+                teamA: [...match.teamA],
+                teamB: [...match.teamB],
+                scores: [...scores],
+                ptsA,
+                ptsB
+            });
+
+            bracketMatches[index] = {
+                ...match,
+                completed: true,
+                scoreA,
+                scoreB
+            };
+
+            await saveData();
+            saveBracket();
+            updateLeaderboard();
+            updateHistory();
+            updateBracket();
+
+            alert('Game recorded successfully!');
         }
 
         // Update leaderboard
