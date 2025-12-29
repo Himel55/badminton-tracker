@@ -426,6 +426,12 @@
             font-weight: 600;
         }
 
+        .team-mu {
+            font-weight: 400;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
         .match-vs {
             display: flex;
             align-items: center;
@@ -1107,16 +1113,27 @@
                 return p1.every(name => !p2.includes(name));
             });
 
-            // TODO: Update to match based on TrueSkill ranking and make wait time off court fair
-            // Step 4: Randomize order
-            const shuffledArray = shuffleArray(disjointCombinations);
-            bracketMatches = shuffledArray.map(([teamA, teamB]) => ({
+            // Step 4: Rank by closeness of combined player mean (mu)
+            const scoredCombinations = disjointCombinations.map(([teamA, teamB]) => {
+                const sumMuA = teamA.reduce((s, name) => s + (getPlayerStats(name).mu || 0), 0);
+                const sumMuB = teamB.reduce((s, name) => s + (getPlayerStats(name).mu || 0), 0);
+                return { teamA, teamB, diff: Math.abs(sumMuA - sumMuB), sumMuA, sumMuB };
+            });
+
+            scoredCombinations.sort((a, b) => {
+                if (a.diff !== b.diff) return a.diff - b.diff; // closest first
+                // tie-breaker: higher total skill first
+                return (b.sumMuA + b.sumMuB) - (a.sumMuA + a.sumMuB);
+            });
+
+            bracketMatches = scoredCombinations.map(({ teamA, teamB }) => ({
                 teamA,
                 teamB,
                 completed: false,
                 scoreA: '',
                 scoreB: ''
             }));
+
             saveBracket();
             updateBracket();
         }
@@ -1149,16 +1166,23 @@
                         const disabledAttr = match.completed ? 'disabled' : '';
                         const scoreA = match.scoreA ?? '';
                         const scoreB = match.scoreB ?? '';
+
+                        // Compute combined mean (mu) for each team
+                        const sumMuA = (match.teamA || []).reduce((s, name) => s + (getPlayerStats(name).mu || 0), 0);
+                        const sumMuB = (match.teamB || []).reduce((s, name) => s + (getPlayerStats(name).mu || 0), 0);
+
                         return `
                             <div class="bracket-match ${completedClass}">
                                 <div class="bracket-match-header">
                                     <div class="team-score-input">
                                         <div class="match-team">${match.teamA.join(' & ')}</div>
+                                        <div class="team-mu">μ: ${sumMuA.toFixed(1)}</div>
                                         <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" id="bracketScoreA-${index}" value="${scoreA}" ${disabledAttr} placeholder="Score">
                                     </div>
                                     <div class="match-vs">vs</div>
                                     <div class="team-score-input">
                                         <div class="match-team">${match.teamB.join(' & ')}</div>
+                                        <div class="team-mu">μ: ${sumMuB.toFixed(1)}</div>
                                         <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" id="bracketScoreB-${index}" value="${scoreB}" ${disabledAttr} placeholder="Score">
                                     </div>
                                 </div>
