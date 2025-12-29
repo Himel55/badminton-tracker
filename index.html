@@ -812,7 +812,8 @@
             gameData.friends[name] = {
                 mu: PARAMS.INIT_MU,
                 sigma: PARAMS.INIT_SIGMA,
-                gp: 0
+                gp: 0,
+                wins: 0
             };
 
             document.getElementById('newFriend').value = '';
@@ -994,6 +995,23 @@
                     stats.gp += 1;
                 }
             });
+
+            // Update wins for the match winner
+            if (ptsA > ptsB) {
+                teamA.forEach(player => {
+                    if (isFriend(player)) {
+                        const stats = gameData.friends[player];
+                        stats.wins = stats.wins + 1;
+                    }
+                });
+            } else if (ptsB > ptsA) {
+                teamB.forEach(player => {
+                    if (isFriend(player)) {
+                        const stats = gameData.friends[player];
+                        stats.wins = stats.wins + 1;
+                    }
+                });
+            }
         }
 
         function addActivePlayer(name) {
@@ -1256,7 +1274,7 @@
                         <div class="player-info">
                             <div class="player-name">${friend.name}</div>
                             <div class="player-stats">
-                                μ: ${friend.mu.toFixed(1)} | σ: ${friend.sigma.toFixed(1)} | Games: ${friend.gp}
+                                μ: ${friend.mu.toFixed(1)} | σ: ${friend.sigma.toFixed(1)} | Games: ${friend.gp} | Wins: ${friend.wins}
                             </div>
                         </div>
                         <div class="rating">${friend.score.toFixed(1)}</div>
