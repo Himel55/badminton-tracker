@@ -1,0 +1,416 @@
+{
+  "friends": {
+    "Ash": {
+      "mu": 25.668180611603233,
+      "sigma": 6.954281345417396,
+      "gp": 18,
+      "wins": 11
+    },
+    "Himel": {
+      "mu": 23.666473689379572,
+      "sigma": 7.024526611532723,
+      "gp": 17,
+      "wins": 4
+    },
+    "Sharan": {
+      "mu": 25.824963084299164,
+      "sigma": 6.954281345417396,
+      "gp": 18,
+      "wins": 9
+    },
+    "Het": {
+      "mu": 24.73439344785945,
+      "sigma": 6.954281345417396,
+      "gp": 18,
+      "wins": 13
+    },
+    "Arnav": {
+      "mu": 25.09617060278173,
+      "sigma": 7.6126437290303395,
+      "gp": 9,
+      "wins": 3
+    }
+  },
+  "matches": [
+    {
+      "timestamp": 1762236645042,
+      "teamA": [
+        "Ash",
+        "Het"
+      ],
+      "teamB": [
+        "Sharan",
+        "Himel"
+      ],
+      "scores": [
+        [
+          21,
+          16
+        ]
+      ],
+      "ptsA": 21,
+      "ptsB": 16
+    },
+    {
+      "timestamp": 1765276029945,
+      "teamA": [
+        "Ash",
+        "Arnav"
+      ],
+      "teamB": [
+        "Himel",
+        "Het"
+      ],
+      "scores": [
+        [
+          13,
+          21
+        ]
+      ],
+      "ptsA": 13,
+      "ptsB": 21
+    },
+    {
+      "timestamp": 1765276335409,
+      "teamA": [
+        "Ash",
+        "Het"
+      ],
+      "teamB": [
+        "Sharan",
+        "Arnav"
+      ],
+      "scores": [
+        [
+          21,
+          16
+        ]
+      ],
+      "ptsA": 21,
+      "ptsB": 16
+    },
+    {
+      "timestamp": 1765277062626,
+      "teamA": [
+        "Ash",
+        "Himel"
+      ],
+      "teamB": [
+        "Sharan",
+        "Arnav"
+      ],
+      "scores": [
+        [
+          21,
+          18
+        ]
+      ],
+      "ptsA": 21,
+      "ptsB": 18
+    },
+    {
+      "timestamp": 1765277689286,
+      "teamA": [
+        "Himel",
+        "Sharan"
+      ],
+      "teamB": [
+        "Het",
+        "Arnav"
+      ],
+      "scores": [
+        [
+          12,
+          21
+        ]
+      ],
+      "ptsA": 12,
+      "ptsB": 21
+    },
+    {
+      "timestamp": 1765278229550,
+      "teamA": [
+        "Ash",
+        "Sharan"
+      ],
+      "teamB": [
+        "Himel",
+        "Het"
+      ],
+      "scores": [
+        [
+          21,
+          11
+        ]
+      ],
+      "ptsA": 21,
+      "ptsB": 11
+    },
+    {
+      "timestamp": 1765278852309,
+      "teamA": [
+        "Ash",
+        "Himel"
+      ],
+      "teamB": [
+        "Het",
+        "Arnav"
+      ],
+      "scores": [
+        [
+          21,
+          18
+        ]
+      ],
+      "ptsA": 21,
+      "ptsB": 18
+    },
+    {
+      "timestamp": 1765279518322,
+      "teamA": [
+        "Ash",
+        "Arnav"
+      ],
+      "teamB": [
+        "Sharan",
+        "Het"
+      ],
+      "scores": [
+        [
+          15,
+          21
+        ]
+      ],
+      "ptsA": 15,
+      "ptsB": 21
+    },
+    {
+      "timestamp": 1765280408471,
+      "teamA": [
+        "Ash",
+        "Sharan"
+      ],
+      "teamB": [
+        "Himel",
+        "Arnav"
+      ],
+      "scores": [
+        [
+          21,
+          14
+        ]
+      ],
+      "ptsA": 21,
+      "ptsB": 14
+    },
+    {
+      "timestamp": 1765281048593,
+      "teamA": [
+        "Himel",
+        "Het"
+      ],
+      "teamB": [
+        "Sharan",
+        "Arnav"
+      ],
+      "scores": [
+        [
+          11,
+          21
+        ]
+      ],
+      "ptsA": 11,
+      "ptsB": 21
+    },
+    {
+      "timestamp": 1765281737989,
+      "teamA": [
+        "Ash",
+        "Sharan"
+      ],
+      "teamB": [
+        "Het",
+        "Arnav"
+      ],
+      "scores": [
+        [
+          17,
+          21
+        ]
+      ],
+      "ptsA": 17,
+      "ptsB": 21
+    },
+    {
+      "timestamp": 1766573170294,
+      "teamA": [
+        "Ash",
+        "Het"
+      ],
+      "teamB": [
+        "Himel",
+        "Sharan"
+      ],
+      "scores": [
+        [
+          21,
+          18
+        ]
+      ],
+      "ptsA": 21,
+      "ptsB": 18
+    },
+    {
+      "timestamp": 1766573186721,
+      "teamA": [
+        "Himel",
+        "Het"
+      ],
+      "teamB": [
+        "Ash",
+        "Sharan"
+      ],
+      "scores": [
+        [
+          21,
+          17
+        ]
+      ],
+      "ptsA": 21,
+      "ptsB": 17
+    },
+    {
+      "timestamp": 1766574087864,
+      "teamA": [
+        "Ash",
+        "Himel"
+      ],
+      "teamB": [
+        "Het",
+        "Sharan"
+      ],
+      "scores": [
+        [
+          16,
+          21
+        ]
+      ],
+      "ptsA": 16,
+      "ptsB": 21
+    },
+    {
+      "timestamp": 1766574842904,
+      "teamA": [
+        "Ash",
+        "Het"
+      ],
+      "teamB": [
+        "Himel",
+        "Sharan"
+      ],
+      "scores": [
+        [
+          21,
+          19
+        ]
+      ],
+      "ptsA": 21,
+      "ptsB": 19
+    },
+    {
+      "timestamp": 1766575426445,
+      "teamA": [
+        "Ash",
+        "Sharan"
+      ],
+      "teamB": [
+        "Himel",
+        "Het"
+      ],
+      "scores": [
+        [
+          21,
+          8
+        ]
+      ],
+      "ptsA": 21,
+      "ptsB": 8
+    },
+    {
+      "timestamp": 1766576065639,
+      "teamA": [
+        "Ash",
+        "Himel"
+      ],
+      "teamB": [
+        "Sharan",
+        "Het"
+      ],
+      "scores": [
+        [
+          15,
+          21
+        ]
+      ],
+      "ptsA": 15,
+      "ptsB": 21
+    },
+    {
+      "timestamp": 1766576772029,
+      "teamA": [
+        "Ash",
+        "Het"
+      ],
+      "teamB": [
+        "Sharan",
+        "Himel"
+      ],
+      "scores": [
+        [
+          21,
+          15
+        ]
+      ],
+      "ptsA": 21,
+      "ptsB": 15
+    },
+    {
+      "timestamp": 1766577545311,
+      "teamA": [
+        "Ash",
+        "Sharan"
+      ],
+      "teamB": [
+        "Himel",
+        "Het"
+      ],
+      "scores": [
+        [
+          21,
+          15
+        ]
+      ],
+      "ptsA": 21,
+      "ptsB": 15
+    },
+    {
+      "timestamp": 1766578357550,
+      "teamA": [
+        "Ash",
+        "Himel"
+      ],
+      "teamB": [
+        "Sharan",
+        "Het"
+      ],
+      "scores": [
+        [
+          19,
+          21
+        ]
+      ],
+      "ptsA": 19,
+      "ptsB": 21
+    }
+  ]
+}
